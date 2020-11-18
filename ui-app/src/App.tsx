@@ -9,7 +9,10 @@ const {Link} = Anchor;
 function App() {
   const [emailOrPhone, setEmailOrPhone] = React.useState<string>();
   const [password, setPassword] = React.useState<string>();
-  const onSubmit = () => {
+  const onSignUp = () => {
+    message.success('Not supported')
+  }
+  const onLogIn = () => {
     if (!emailOrPhone) {
       message.error('Please enter email address or phone number');
       return;
@@ -81,7 +84,7 @@ function App() {
                       <Button
                         type="primary"
                         size={'large'}
-                        onClick={onSubmit}
+                        onClick={onLogIn}
                         style={{width: '100%'}}
                       >
                         {'Log In'}
@@ -97,7 +100,7 @@ function App() {
                       <Button
                         type="primary"
                         size={'large'}
-                        onClick={onSubmit}
+                        onClick={onSignUp}
                         style={{background: 'green'}}
                       >
                         {'Create New Account'}

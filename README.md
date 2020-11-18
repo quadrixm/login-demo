@@ -38,3 +38,5 @@ Here are the sample users data
   {name: 'Eve', email: 'eve@example.com', password: 'eve123', phone: '7777777777'},
 ]
 ```
+
+![login snapshot](login-snapshot.png "Login Page")
