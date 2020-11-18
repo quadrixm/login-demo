@@ -2,13 +2,13 @@
 // Node module: loopback4-example-shopping
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
-import {HttpErrors, patch, post, requestBody} from '@loopback/rest';
+import {HttpErrors, post, requestBody} from '@loopback/rest';
 
 const CredentialsSchema = {
   type: 'object',
-  required: ['email', 'password'],
+  required: ['emailOrPhone', 'password'],
   properties: {
-    email: {
+    emailOrPhone: {
       type: 'string',
     },
     password: {

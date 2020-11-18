@@ -1,37 +1,67 @@
 import React from 'react';
+import axios from 'axios';
 import './App.css';
-import {Anchor, Button, Card, Col, Divider, Form, Input, Layout, Row} from "antd";
-const { Content } = Layout;
-const { Link } = Anchor;
+import {Anchor, Button, Card, Col, Divider, Form, Input, Layout, message, Row} from "antd";
+
+const {Content} = Layout;
+const {Link} = Anchor;
 
 function App() {
   const [emailOrPhone, setEmailOrPhone] = React.useState<string>();
   const [password, setPassword] = React.useState<string>();
   const onSubmit = () => {
+    if (!emailOrPhone) {
+      message.error('Please enter email address or phone number');
+      return;
+    }
+    if (!password) {
+      message.error('Please enter password');
+      return;
+    }
+    if (password.length < 6) {
+      message.error('Please enter valid password');
+      return;
+    }
     const data = {emailOrPhone, password};
-    console.log(data)
+    axios.post('http://127.0.0.1:3001/users/login', data)
+      .then(res => {
+        message.success('Log in successfully');
+      })
+      .catch(err => {
+        console.log('err');
+        console.log(err);
+        message.error(err?.response?.data?.error?.message || 'Something went wrong.');
+      });
   }
   const onForgottenPassword = () => {
-    const data = {emailOrPhone, password};
-    console.log(data)
+    if (!emailOrPhone) {
+      message.error('Please enter email address or phone number');
+      return;
+    }
+    const data = {emailOrPhone};
+    axios.post('http://127.0.0.1:3001/users/reset-password', data)
+      .then(res => {
+        message.success('Password reset instruction sent');
+      })
+      .catch(err => {
+        message.error(err?.response?.data?.error?.message || 'Something went wrong.');
+      });
   }
   return (
     <div className="App">
-      <Layout id={'components-layout-demo-custom-trigger'}>
-        <Layout className="site-layout">
+      <Layout>
+        <Layout>
           <Content
-            className="site-layout-background"
             style={{
               margin: '8px',
               padding: 12,
               minHeight: 280,
             }}
           >
-
             <Row justify={'center'}>
-              <Col style={{ width: '350px' }}>
+              <Col style={{width: '350px'}}>
                 <Card>
-                  <Form style={{ textAlign: 'center' }}>
+                  <Form style={{textAlign: 'center'}}>
                     <Form.Item>
                       <Input
                         placeholder={'Email address or phone number'}
@@ -52,23 +82,23 @@ function App() {
                         type="primary"
                         size={'large'}
                         onClick={onSubmit}
-                        style={{ width: '100%' }}
+                        style={{width: '100%'}}
                       >
                         {'Log In'}
                       </Button>
                     </Form.Item>
                     <Form.Item>
                       <Anchor affix={false} onClick={onForgottenPassword}>
-                        <Link href="#" title={(<b>Forgotten Password?</b>)} />
+                        <Link href="#" title={(<b>Forgotten Password?</b>)}/>
                       </Anchor>
                     </Form.Item>
-                    <Divider />
+                    <Divider/>
                     <Form.Item>
                       <Button
                         type="primary"
                         size={'large'}
                         onClick={onSubmit}
-                        style={{ background: 'green' }}
+                        style={{background: 'green'}}
                       >
                         {'Create New Account'}
                       </Button>
